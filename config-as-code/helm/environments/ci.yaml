@@ -1,11 +1,11 @@
 global:
   domain: mcdupyog-cicd.sparrowsoftech.in ## Add your Domain Name Eg: site.mydomain.com
   setup: fullsetup
-  
+
 cluster-configs:
   namespaces:
     create: true
-    values: [ jenkins, cert-manager ]
+    values: [jenkins, cert-manager]
   root-ingress:
     namespace: jenkins
     serviceName: jenkins
@@ -16,31 +16,28 @@ cluster-configs:
 jenkins:
   persistence:
     enabled: true
-#    aws:
-#      - volumeId: "vol-0e10a8959033657ff" # Add volume id for jenkins-home
-#        zone: ap-south-1b # Add respective availability_zones 
+  #    aws:
+  #      - volumeId: "vol-0e10a8959033657ff" # Add volume id for jenkins-home
+  #        zone: ap-south-1b # Add respective availability_zones
 
   oauth:
     enabled: true
     acl:
       admin:
         - mcdupyog*mcdteam # Add github team. Members of this team gets admin access on jenkins
-      user:                                 # Add github team. Members of this team gets login access on jenkins
+      user: # Add github team. Members of this team gets login access on jenkins
         - mcdupyog*mcdteam-ci
         - mcdupyog*mcdteam-qa
-       
-       
 
-  jobBuilder:    # Add jobBuilder repo's, add repo's ssh link
+  jobBuilder: # Add jobBuilder repo's, add repo's ssh link
     repos: >-
       'https://github.com/mcd89/mcd_UPYOG.git'
-  deploymentJobs:  # Setup deploymentJobs ACL 
-    - name: ci    # deployment job name
+  deploymentJobs: # Setup deploymentJobs ACL
+    - name: ci # deployment job name
       acl: [mcdupyog*mcdteam-ci] # GitHub team name, Members of the team get access to deployment job
     - name: qa
-      acl: [mcdupyog*mcdteam-qa] 
-    
-       
+      acl: [mcdupyog*mcdteam-qa]
+
   master:
     ingress:
       enabled: true
@@ -68,13 +65,13 @@ cert-manager:
   clusterIssuer:
     stage:
       acme:
-        email: "serveradmin@sparrowsoftech.com"     # Add mail id
+        email: "serveradmin@sparrowsoftech.com" # Add mail id
 
 cluster-autoscaler:
   namespace: jenkins
-  cloudProvider: aws  
+  cloudProvider: aws
   awsRegion: ap-south-1
   autoDiscovery:
     clusterName: egov-cicd # Add cluster name
     tags:
-    - kubernetes.io/cluster/egov-cicd # Add cluster name
+      - kubernetes.io/cluster/egov-cicd # Add cluster name
