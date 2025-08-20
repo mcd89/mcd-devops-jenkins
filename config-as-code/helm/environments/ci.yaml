@@ -28,15 +28,18 @@ jenkins:
       user: # Add github team. Members of this team gets login access on jenkins
         - mcdupyog*mcdteam-ci
         - mcdupyog*mcdteam-qa
+        - mcdupyog*mcdteam-uat
 
   jobBuilder: # Add jobBuilder repo's, add repo's ssh link
     repos: >-
-      'https://github.com/mcd89/mcd_UPYOG.git'
+      'https://github.com/mcd89/mcd_UPYOG.git','https://github.com/mcdupyog/mcd-UPYOG.git'
   deploymentJobs: # Setup deploymentJobs ACL
     - name: ci # deployment job name
       acl: [mcdupyog*mcdteam-ci] # GitHub team name, Members of the team get access to deployment job
     - name: qa
       acl: [mcdupyog*mcdteam-qa]
+    - name: uat
+      acl: [mcdupyog*mcdteam-uat]
 
   master:
     ingress:
